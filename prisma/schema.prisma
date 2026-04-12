@@ -1,0 +1,64 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id          Int           @id @default(autoincrement())
+  username    String        @unique
+  email       String        @unique
+  password    String
+  birthday    DateTime?
+  events      UserEvent[]
+  memberships GroupMember[] @relation(name: "UserGroups")
+}
+
+model Event {
+  id        Int         @id @default(autoincrement())
+  title     String
+  startTime DateTime
+  endTime   DateTime
+  privacy   String
+  groupId   Int?
+  group     Group?      @relation(fields: [groupId], references: [id], name: "GroupEvents")
+  users     UserEvent[]
+}
+
+model UserEvent {
+  id            Int     @id @default(autoincrement())
+  userId        Int
+  eventId       Int
+  showOnProfile Boolean @default(true)
+
+  user  User  @relation(fields: [userId], references: [id])
+  event Event @relation(fields: [eventId], references: [id])
+
+  @@unique([userId, eventId])
+}
+
+model Group {
+  id      Int           @id @default(autoincrement())
+  name    String
+  privacy String // "private" or "public"
+  events  Event[]       @relation(name: "GroupEvents")
+  members GroupMember[]
+}
+
+model GroupMember {
+  id      Int @id @default(autoincrement())
+  groupId Int
+  userId  Int
+
+  group Group @relation(fields: [groupId], references: [id])
+  user  User  @relation(fields: [userId], references: [id], name: "UserGroups")
+
+  @@unique([groupId, userId])
+}
