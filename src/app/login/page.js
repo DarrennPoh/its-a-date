@@ -33,20 +33,40 @@ export default function LoginPage() {
     }
 
     return (
-        <div>
-            <h1>Login</h1>
-        <input type="text" placeholder="Username" value={username} onChange={(e)=>setUsername(e.target.value)}
-        />
+  <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+      <h1 className="text-2xl font-bold text-center mb-6">ItsADate 📅</h1>
 
-        <input
-            type="password"
-            placeholder="Password"
-            value = {password}
-            onChange = {(e)=>setPassword(e.target.value)} />
+      <input
+        type="text"
+        placeholder="Username"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+        className="w-full border border-gray-300 rounded px-4 py-2 mb-4 focus:outline-none focus:border-blue-500"
+      />
 
-        {error && <p>{error}</p>}
-        <button onClick={handleLogin}>Login</button>
+      <input
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        className="w-full border border-gray-300 rounded px-4 py-2 mb-4 focus:outline-none focus:border-blue-500"
+      />
 
-        </div>
-    )
+      {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+
+      <button
+        onClick={handleLogin}
+        className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition"
+      >
+        Login
+      </button>
+
+      <p className="text-center mt-4 text-sm">
+        Don't have an account?{' '}
+        <a href="/signup" className="text-blue-500 hover:underline">Sign up here</a>
+      </p>
+    </div>
+  </div>
+)
 }

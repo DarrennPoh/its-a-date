@@ -9,6 +9,7 @@ export async function POST(req) {
   try {
     const body = await req.json()
     const { title, startTime, endTime, privacy, groupId } = body
+    
 
     if (!title || !startTime || !endTime || !privacy) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })

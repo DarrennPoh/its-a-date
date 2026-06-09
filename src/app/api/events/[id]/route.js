@@ -67,3 +67,43 @@ export async function DELETE(req,{params}) {
  }
     
 }
+
+export async function PUT(req, { params }) {
+  const { id } = await params
+  const auth = authenticate(req)
+  if (auth.error) return NextResponse.json({ error: auth.error }, { status: auth.status })
+
+  try {
+    const eventId = parseInt(id)
+    const { title, startTime, endTime, privacy } = await req.json()
+
+    // 1. Verify the event actually belongs to the user trying to modify it
+    const userEvent = await prisma.userEvent.findUnique({
+      where: {
+        userId_eventId: {
+          userId: auth.userId,
+          eventId
+        }
+      }
+    })
+
+    if (!userEvent) {
+      return NextResponse.json({ error: 'Unauthorized or event not found' }, { status: 404 })
+    }
+
+    // 2. Perform database update on the target event
+    const updatedEvent = await prisma.event.update({
+      where: { id: eventId },
+      data: {
+        title,
+        startTime: new Date(startTime),
+        endTime: new Date(endTime),
+        privacy
+      }
+    })
+
+    return NextResponse.json({ message: 'Event updated successfully', event: updatedEvent }, { status: 200 })
+  } catch (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 })
+  }
+}
