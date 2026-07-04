@@ -71,7 +71,10 @@ export default function DashboardPage() {
   async function createEvent(e) {
     if (e) e.preventDefault()
     setError('')
-    
+    if (new Date(newEndTime) <= new Date(newStartTime)) {
+    setError('End time must be after start time')
+    return
+}
     const token = localStorage.getItem('token')
 
     try {
@@ -147,6 +150,10 @@ export default function DashboardPage() {
   async function updateEvent(e) {
     if (e) e.preventDefault()
     setError('')
+    if (new Date(newEndTime) <= new Date(newStartTime)) {
+  setError('End time must be after start time')
+  return
+}
     const token = localStorage.getItem('token')
 
     try {
