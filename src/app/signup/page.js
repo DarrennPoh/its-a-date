@@ -25,7 +25,23 @@ export default function SignUpPage() {
       return
     }
 
-    router.push('/dashboard')  // ← redirects to dashboard after signup
+    // automatically log in after signup
+    const loginResponse = await fetch('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password })
+    })
+
+    const loginData = await loginResponse.json()
+
+    if (loginResponse.ok) {
+      localStorage.setItem('token', loginData.token)
+      localStorage.setItem('userId', loginData.userId)
+      localStorage.setItem('username', loginData.username)
+      router.push('/dashboard')
+    } else {
+      router.push('/login')
+    }
   }
 
   return (
