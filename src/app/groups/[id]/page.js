@@ -53,6 +53,7 @@ export default function GroupDetailPage() {
         headers:{Authorization:`Bearer ${token}`}
       })
       const data = await response.json()
+      console.log('GROUP EVENTS DATA:', data)
       if (response.ok) setEvents(data.events || [])
     } catch (err) {
       setError('Failed to fetch events')
@@ -128,6 +129,7 @@ export default function GroupDetailPage() {
             
             <h2 className="text-xl font-semibold mt-6 mb-4">Members</h2>
 
+
             {(() => {
               const isMember = group.members?.some(
                 m => m.userId === parseInt(localStorage.getItem('userId'))
@@ -144,6 +146,21 @@ export default function GroupDetailPage() {
                 </div>
               ))
             })()}
+
+            <h2 className="text-xl font-semibold mt-6 mb-4">Group Events</h2>
+            
+            {events.map(event => (
+              <div key={event.id} className = "border-b border-gray-200 py-4 last:border-0">
+                <h3 className = "font-semibold">{event.title}</h3>
+                <p className="text-gray-500 text-sm">
+                  Start: {new Date(event.startTime).toLocaleString()}
+                </p>
+                <p className="text-gray-500 text-sm">
+                  End : {new Date(event.endTime).toLocaleString()}
+                </p>
+              </div>
+            ))}
+
             <button
               onClick={() => setShowForm(!showForm)}
               className="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600 transition mt-6"

@@ -17,6 +17,7 @@ export default function GroupsPage() {
   const [selectedGroupId, setSelectedGroupId] = useState(null)
   const [newMemberUsername, setNewMemberUsername] = useState('')
   const [selectedGroup, setSelectedGroup] = useState(null)
+  const [newColor, setNewColor] = useState('#3B82F6')  // default blue
 
   // ── Auth check ──────────────────────────────────────────
   useEffect(() => {
@@ -74,7 +75,7 @@ export default function GroupsPage() {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`
         },
-        body: JSON.stringify({ name: newName, privacy: newPrivacy })
+        body: JSON.stringify({ name: newName, privacy: newPrivacy, color: newColor })
       })
       const data = await response.json()
       if (!response.ok) {
@@ -152,9 +153,15 @@ export default function GroupsPage() {
           {groups.map(group => (
             <div key={group.id} className="border-b border-gray-200 py-4 last:border-0">
               <Link href={`/groups/${group.id}`}>
-              <h3 className="font-semibold text-lg text-blue-600 hover:underline cursor-pointer">
-                {group.name}
-              </h3>
+              <div className="flex items-center gap-2">
+                <div
+                  className="w-3 h-3 rounded-full"
+                  style={{ backgroundColor: group.color || '#3B82F6' }}
+                />
+                <h3 className="font-semibold text-lg text-blue-600 hover:underline cursor-pointer">
+                  {group.name}
+                </h3>
+              </div>
              </Link>
               <span className="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded mt-1 inline-block">
                 {group.privacy}
@@ -266,7 +273,22 @@ export default function GroupsPage() {
               <option value="private">Private</option>
               <option value="public">Public</option>
             </select>
-
+            <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Group Colour
+            </label>
+            <div className="flex gap-2 flex-wrap">
+              {['#3B82F6', '#EF4444', '#10B981', '#F59E0B', '#8B5CF6', '#EC4899', '#14B8A6', '#F97316'].map(color => (
+                <button
+                  key={color}
+                  type="button"
+                  onClick={() => setNewColor(color)}
+                  className={`w-8 h-8 rounded-full border-2 transition ${newColor === color ? 'border-gray-800 scale-110' : 'border-transparent'}`}
+                  style={{ backgroundColor: color }}
+                />
+              ))}
+            </div>
+          </div>
             <button
               type="submit"
               className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition"

@@ -44,7 +44,7 @@ export async function GET (req,{params}) {
 
     try {
         const groupId = parseInt(id)
-        const event = await prisma.event.findMany({
+        const events = await prisma.event.findMany({
             where:{groupId}
         })
         return NextResponse.json({ events })

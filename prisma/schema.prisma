@@ -48,6 +48,7 @@ model Group {
   id      Int           @id @default(autoincrement())
   name    String
   privacy String // "private" or "public"
+  color   String        @default("#3B82F6") 
   events  Event[]       @relation(name: "GroupEvents")
   members GroupMember[]
 }
