@@ -12,7 +12,7 @@ export async function POST (req,{params}) {
         const body = await req.json()
         const {title, startTime, endTime, privacy } = body 
         if(!title || !startTime|| !endTime || !privacy )
-          {return NextResponse.json({error:'Missing required fields'},{status:400})}
+        {return NextResponse.json({error:'Missing required fields'},{status:400})}
         const members = await prisma.groupMember.findMany({
             where: {groupId}
         })
@@ -33,6 +33,24 @@ export async function POST (req,{params}) {
 
         } catch (error){
         return NextResponse.json({error:error.message},{status:500})
-
     }
+}
+
+export async function GET (req,{params}) {
+    const {id} = await params 
+    const auth = authenticate(req)
+    if (auth.error) return NextResponse.json({error:auth.error},{status:auth.status})
+
+
+    try {
+        const groupId = parseInt(id)
+        const events = await prisma.event.findMany({
+            where:{groupId}
+        })
+        return NextResponse.json({ events })
+
+    } catch (error){
+    return NextResponse.json({error:error.message},{status:500})
+    }
+
 }

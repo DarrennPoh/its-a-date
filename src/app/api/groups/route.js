@@ -8,7 +8,7 @@ export async function POST(req) {
 
     try {
     const body = await req.json()
-    const {name , privacy} = body 
+    const {name , privacy, color} = body 
     if (!name || !privacy ) {
         return NextResponse.json (
             {message : "Missing required fields "},
@@ -16,7 +16,7 @@ export async function POST(req) {
         )}
     const group = await prisma.group.create({
         data : {
-        name , privacy , members:{create :{userId:auth.userId}}
+        name , privacy, color:color || '#3B82F6' , members:{create :{userId:auth.userId}}
         }
     })
     return NextResponse.json ({message:'Group created!',group},{status:201})
