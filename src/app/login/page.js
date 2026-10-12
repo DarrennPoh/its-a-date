@@ -51,7 +51,7 @@ export default function LoginPage() {
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full border border-gray-300 rounded px=4 py-2 mb-4 focus:outline-none focus:border-blue-500"
+            className="w-full border border-gray-300 rounded px-4 py-2 mb-4 focus:outline-none focus:border-blue-500"
           />
 
           {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
