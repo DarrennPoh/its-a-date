@@ -2,8 +2,6 @@
 
 A full-stack calendar and scheduling app that helps NSFs, students, and working adults coordinate schedules and plan meetups.
 
-🌐 **Live App:** [https://its-a-date-xi.vercel.app](https://its-a-date-xi.vercel.app)
-
 ## Features
 
 - 🔐 User authentication (signup, login, JWT)
@@ -101,12 +99,17 @@ prisma/
 - **Group** — id, name, privacy, color
 - **GroupMember** — links users ↔ groups (junction table)
 
-## Deployment
-
-This app is deployed on [Vercel](https://vercel.com) with a [Supabase](https://supabase.com) PostgreSQL database.
-
-Live URL: [https://its-a-date-xi.vercel.app](https://its-a-date-xi.vercel.app)
-
 ## License
 
 MIT
+
+## DEMO SCREENSHOTS  
+
+- [Signup](screenshot/ItsADate_signup.png)
+- [Login](screenshot/ItsADate_login.png)
+- [Homepage](screenshot/ItsADate_homepage.png)
+- [Creating an event](screenshot/ItsADate_event1.png)
+- [Event displayed](screenshot/ItsADate_event2.png)
+- [Groups page](screenshot/ItsADate_groups.png)
+- [Groups Created](screenshot/ItsADate_groupCreated.png)
+
